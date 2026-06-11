@@ -26,6 +26,29 @@
 規格書第 11 節提供三步起步法:十分鐘建檔案協調層 → 半天立審查紀律 → 漸進自動化。
 前兩步不需要寫任何程式碼。
 
+## 讓你的 AI 幫你導入
+
+如果你使用具備檔案讀寫能力的 AI 編碼助手(Claude Code、Codex CLI 等),
+把下面這段連同本 repo 網址一起貼給它,它就能直接為你搭好最小可行版本:
+
+```text
+請閱讀這份規格書:
+https://github.com/yuduanliao-pixel/multi-agent-collaboration-spec/blob/main/multi-agent-collaboration-spec.md
+
+依照第 11 節「最小可行導入」的第一步與第二步,在我的工作目錄建立:
+1. coordination/ 資料夾(queue.md、staging/、README.md 格式契約)
+2. 一頁審查紀律文件(角色分離、reconcile 流程、80 分放行線、needs_fix 規則)
+先給我看你的規劃,經我確認後再動手。建完後示範登記第一個任務。
+```
+
+注意:純聊天型 AI(無檔案工具)只能讀懂規格、無法代你建檔;
+自動化階段(規格書第 8 節)涉及排程任務與通知管道,建議在 AI 協助下逐項手動確認。
+
+## License
+
+本作品採用 [CC BY 4.0](LICENSE) 授權 — 歡迎轉載、改作、商用,標註出處即可。
+Licensed under [Creative Commons Attribution 4.0 International](https://creativecommons.org/licenses/by/4.0/).
+
 ---
 
 *規格書為繁體中文。The spec is written in Traditional Chinese; the architecture diagrams (Mermaid) are language-light and self-explanatory.*
