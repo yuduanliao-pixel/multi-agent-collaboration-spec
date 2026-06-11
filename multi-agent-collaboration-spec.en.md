@@ -234,9 +234,11 @@ A personal budget is not a corporate unlimited plan — but **savings must never
 
 | Tier | Meaning | Stance |
 |------|---------|--------|
-| Starvation | Feed less input to save money | **Forbidden.** Empirically: reviews fed truncated evidence issued three wrong verdicts in a row, and the repair cost more than one properly-fed review — starvation loses twice |
-| Compression | Same judgment, fewer tokens | The floor. Guarded by an equivalence test: the compressed version must judge identically to the full version, or the build fails |
-| Refinement | Same tokens, more judgment | **The direction.** The precedent digest is re-distilled at every promotion — synthesizing across cases, sharpening detection cues, retiring redundancy. Judgment-per-token rises with accumulation |
+| Starvation | Feeding less, or broken, input to save money | **Forbidden.** Empirically: reviews fed truncated evidence issued three wrong verdicts in a row, and the repair cost more than one properly-fed review — starvation loses twice |
+| Compression | Same judgment, fewer tokens | **A legitimate saving, with a hard line**: judgments made from condensed material (e.g. the precedent digest) must match judgments made from the full text — fail that equivalence check and the condensed version may not be used |
+| Refinement | Same tokens, more judgment | **The direction.** The digest is re-distilled at every update — synthesizing across cases, sharpening detection cues, retiring redundancy. Judgment-per-token rises with accumulation |
+
+The floor is "quality never drops"; there is no ceiling — the system only rewards going up.
 
 Operational principles:
 
