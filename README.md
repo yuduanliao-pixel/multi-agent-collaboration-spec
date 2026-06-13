@@ -12,10 +12,17 @@ A multi-agent AI collaboration framework running in real production on a single 
 
 | 語言 / Language | Markdown | PDF (A4) |
 |---|---|---|
-| 繁體中文(原文) | [multi-agent-collaboration-spec.md](multi-agent-collaboration-spec.md) | [PDF,9 頁](multi-agent-collaboration-spec.pdf) |
-| English | [multi-agent-collaboration-spec.en.md](multi-agent-collaboration-spec.en.md) | [PDF, 11 pages](multi-agent-collaboration-spec.en.pdf) |
+| 繁體中文(原文) | [multi-agent-collaboration-spec.md](multi-agent-collaboration-spec.md) | [PDF,11 頁](multi-agent-collaboration-spec.pdf) |
+| English | [multi-agent-collaboration-spec.en.md](multi-agent-collaboration-spec.en.md) | [PDF, 13 pages](multi-agent-collaboration-spec.en.pdf) |
 
-## v1.1(2026-06-12)更新 / What's new
+## v1.2(2026-06-13)更新 / What's new
+
+- **車道閘門:角色界線變成代碼 / Lane guard — the role boundary as code** — 不再只是叮嚀;設計/審查代理被**寫前閘門**擋住、不得編輯實作端產品碼,而**緊急通道由風險門檻代碼驗證**(高風險,或中風險但會直接導致系統卡死/構成資安風險)。A pre-write gate, not a reminder, with a risk-gated emergency override.
+- **車道邊界納入設計階段 / Lane boundary defined at design time** — 新專案先定義風險、再註冊進閘門清單,絕不留未保護的產品庫。
+- **雙向自治閉環 / The bidirectional autonomy loop, closed** — 事件驅動派工＋嚴格有界 worker(寫入限自身資料夾、shell 限驗證、無網路)＋遞迴護欄(代理不得自動改自己的審批機制)＋演習啟用。Event-driven dispatch, a strictly bounded worker, a recursion guard, and activation-by-drill.
+- **教訓擴充至九則 / Lessons → nine** — 不信報告,連自己的檢查也不信。
+
+## v1.1(2026-06-12)更新 / Earlier
 
 - **審查庭與判例制度 / The Review Court & precedent system** — reviews that learn from reviews: significant rulings are distilled into governed precedents, pre-read before every future review (Reflexion, institutionalized)
 - **Token 經濟三層階梯 / Three-tier token economy** — starvation forbidden, compression is the floor, refinement is the direction: judgment-per-token rises with accumulation

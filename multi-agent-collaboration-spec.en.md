@@ -1,7 +1,7 @@
 # Multi-Agent AI Collaboration Framework
 
-**Version** 1.1 | **Date** 2026-06-12 | **Nature**: a replicable institutional design, distilled from a four-agent system in real production
-**New in v1.1**: Review Court & precedent system, three-tier token economy, claim/lease mechanism, long-horizon stage gates in practice, lessons expanded to eight
+**Version** 1.2 | **Date** 2026-06-13 | **Nature**: a replicable institutional design, distilled from a four-agent system in real production
+**New in v1.2**: the role boundary upgraded to a code-enforced lane guard (with a risk-gated emergency override), lane boundaries defined at design time, the bidirectional autonomy loop closed (bounded worker + recursion guard + activation-by-drill), lessons expanded to nine
 
 ---
 
@@ -167,6 +167,22 @@ Three months later, anyone — human or AI — can answer "who approved what, wh
 
 **Axiom 3 in practice**: we once had documentation declaring "awaiting approval" while the scheduler was already running the armed code — the system fired the first shot itself. The lesson is now institutional: **declaring a gate requires pointing at the code or config line that enforces it**, and reviews verify each such claim. The coordination contract now reads: *"a staging note, queue field, or handoff sentence is a request for a gate, not the gate itself."*
 
+### 7.1 The lane guard: turn the role boundary into code, not a reminder
+
+Axiom 1 (players don't referee), if it lives only in a document, eventually meets an agent that misjudges and edits product code that wasn't its to write — the failure mode is never "the rule wasn't written", it's "it didn't recognize whose lane this was". So make it a **pre-write gate**: when the design/review agent attempts to edit the implementer's product code (or the coordination infrastructure), the action is blocked *before it happens* with "this is the other lane — write a spec and hand off". A document can be ignored; a pre-write deny cannot.
+
+But it **must not be a dead block** — a genuine incident has to be handled immediately, without waiting for the other agent to wake. So the emergency override is gated **by a risk threshold enforced in code**, not an absolute lock:
+
+- Default: blocked.
+- Allowed only when: **risk is HIGH, or risk is MEDIUM but the issue directly freezes the system / is a security risk**; with a fresh timestamp (e.g. within 60 minutes); and every override is auto-logged to an audit trail.
+- Low risk, routine work, stale or non-qualifying overrides: still blocked.
+
+That is "the gate is code, the exception must be deliberate AND clear a risk bar, and every override leaves a record" — not a dead block, but "route to the other lane by default, bypass in one second in an emergency, and every bypass is risk-checked".
+
+### 7.2 The lane boundary is part of design, not an afterthought
+
+Whenever you assess or design a new project, decide up front whether it will produce "other-lane" product code. If it will: **define the risk first** (which path is product code; product code vs. coordination / spec / probe; why direct edits are risky), **then register that path into the guard list** — before implementation starts, not bolted on later. A new product repo is never left unguarded by default.
+
 ---
 
 ## 8. Governed memory (the Memory Palace)
@@ -226,6 +242,17 @@ One OS scheduled task runs a pure-script pipeline every five minutes:
 
 Iron rules: **notification failure never fails the pipeline** (best-effort); **automation only sorts and notifies — lifecycle changes (promotion, closure) always pass through gates**; **the five-minute heartbeat itself costs zero LLM tokens** (pure local scripts; the model appears only when a real review request exists).
 
+### 9.1 Closing the loop: bounded autonomous dispatch
+
+The pipeline above automates *notification*; the last mile is automating *action* — the system wakes the right agent the moment it detects work, in both directions (implementer picks up specs, reviewer picks up deliveries), with no human relaying anything. Key design points:
+
+- **Event-driven, not scheduled shifts**: the zero-cost detector already knows when work exists — so it launches one worker at the moment of detection. Zero cost when idle, action within minutes when there's work; more immediate than any fixed cadence, and no idle burn.
+- **The worker is strictly bounded** (the linchpin of safe autonomous writes): writes only to its own task folder, shell limited to verification commands (compile / run tests), no network, hidden launch, single-flight, daily cap — all enforced by code gates, not prompt instructions.
+- **Recursion guard (non-negotiable)**: an autonomous agent must **never** auto-act on changes to its *own* dispatch / review machinery — those tasks escalate to a human-supervised tier. A system that can auto-approve changes to its own approval machinery has no gate.
+- **Activation is itself the highest gate**: this capability turns on only after live drills prove it stays bounded — drills must simultaneously show (a) the happy-path dispatch works, (b) every escape attempt is denied, (c) self-referential tasks correctly refuse to auto-run — plus explicit human approval.
+
+Only here does "the human as mailman" truly end: the human appears only when asked to decide and approve; relaying, status-checking, chasing, and forwarding all disappear.
+
 ---
 
 ## 10. Token economy: the three-tier ladder
@@ -272,7 +299,7 @@ Field note: these gates passed their trial by fire unattended, overnight. The im
 
 ---
 
-## 12. Eight lessons, all paid for
+## 12. Nine lessons, all paid for
 
 | # | Lesson | Incident |
 |---|--------|----------|
@@ -284,6 +311,7 @@ Field note: these gates passed their trial by fire unattended, overnight. The im
 | 6 | In parallel lanes, check the envelope first | With concurrent tasks, agents grabbing the wrong folder is a real risk; the cure is task-ID discipline plus the claim mechanism |
 | 7 | When the reviewed party edits the review tooling, flag it | The implementer patched the reviewer itself to unblock a gate — the direction was tightening, so no harm, but "self-referential change" must be a mandatory delivery label, not a lucky catch |
 | 8 | A fix written for a lesson is itself an untested path | The patch that cured scanner blindness shipped with a same-day-refresh branch that crashed the first time it ever ran — every new path needs a test that has walked it |
+| 9 | Trust no report — including your own check | During verification, a buggy check command (it reported "problem" whether or not it matched) nearly raised a false alarm about an escape that did not exist; re-verification showed the check itself was wrong. Hard checks must themselves be checked |
 
 ---
 
@@ -322,6 +350,9 @@ Distill precedents from significant reviews, gate them into memory, pre-read the
 | certainty label | A finding's evidence grade: PROVEN / INFERRED / SPECULATIVE |
 | re-distillation | Digest re-refined at every promotion; judgment density rises with accumulation |
 | proven / gated / missing | An audit script's three-state verdict per completion requirement |
+| lane guard | A pre-write interception that blocks an agent from editing code outside its lane; carries a risk-gated emergency override |
+| risk-gated override | The emergency-bypass bar: HIGH risk, or MEDIUM + system-freeze/security; low-risk or stale stays blocked |
+| recursion guard | An autonomous agent may not auto-act on changes to its own dispatch/review machinery; always escalates to the human tier |
 
 ---
 
